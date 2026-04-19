@@ -3,34 +3,27 @@ import model.Feedback;
 import java.io.*;
 import java.util.ArrayList;
 public class FileManager {
-    private static final String FILE_NAME = "data/feedback.csv";
-    public static ArrayList<Feedback> loadFeedbacks() {
+    private static final String FILE_NAME = "feedback.csv";
+    public static ArrayList<Feedback> readFromFile() {
         ArrayList<Feedback> list = new ArrayList<>();
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(FILE_NAME));
+        try (BufferedReader br = new BufferedReader(new FileReader(FILE_NAME))) {
             String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(",", 2);
-                if (parts.length == 2) {
-                    list.add(new Feedback(parts[0], parts[1]));
-                }
+            while ((line = br.readLine()) != null) {
+                list.add(Feedback.fromCSV(line));
             }
-            reader.close();
         } catch (IOException e) {
-            // file may not exist yet
+            System.out.println("File not found, starting fresh.");
         }
         return list;
     }
-    public static void saveFeedbacks(ArrayList<Feedback> list) {
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_NAME));
+    public static void writeToFile(ArrayList<Feedback> list) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_NAME))) {
             for (Feedback f : list) {
-                writer.write(f.getAuthor() + "," + f.getMessage());
-                writer.newLine();
+                bw.write(f.toCSV());
+                bw.newLine();
             }
-            writer.close();
         } catch (IOException e) {
-            System.out.println("Error saving file.");
+            System.out.println("Error writing to file.");
         }
     }
 }
