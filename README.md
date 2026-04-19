@@ -1,4 +1,4 @@
-<img width="1920" height="1080" alt="Exit" src="https://github.com/user-attachments/assets/8ed73f52-102f-482f-b73d-3877399dec3e" />Project Title: Feedback Submission System
+Project Title: Feedback Submission System
 Student Information
 Student Name: Aruuke Kenzhalieva
 
